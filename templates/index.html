@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<body>
+<div><a href="/logout">注销</a> </div>
+    <div class="center">
+        <h1>申请转发连接</h1>
+            <h4>请输入欲连接的服务器IP与端口号</br>
+            每人最多{{ EACHONE_LIMIT }}条连接</br>
+                服务器最多容纳{{ ALL_LIMIT }}条连接转发
+            </h4>
+            <form name="applyfor" action="/" method="POST" >
+            {% csrf_token %}
+                <input type="text" name="ServerIP" class="form-control" placeholder="服务器IP" required="required" pattern="^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])(\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])){3}$" />
+                <input type="text" name="ServerPort" class="form-control" placeholder="端口" required="required" pattern="[1-9][0-9]{1,4}" />
+                <select name="Time" data-placeholder="连接时长">
+                    <option value="1" selected>连接1小时</option>
+                    <option value="2">连接2小时</option>
+                    <option value="3">连接3小时</option>
+                    <option value="4">连接4小时</option>
+                    <option value="6">连接6小时</option>
+                    <option value="8">连接8小时</option>
+                </select>
+                <button type="submit">提 交</button>
+            </form>
+        <div>
+            <p style="color:red">{{ Msg }}</p>
+        </div>
+        <div class="t">
+            <table border="1" cellpadding="5">
+                <thead>
+                    <tr>
+                        <th>
+                            序号
+                        </th>
+                        <th>
+                            远程服务器
+                        </th>
+                        <th>
+                            转发服务器
+                        </th>
+                        <th>
+                            建立时间
+                        </th>
+                        <th>
+                            总时长
+                        </th>
+
+                        <th>
+                            剩余时长
+                        </th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in apply_info %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ i.DestServerIP }}:{{ i.DestServerPort }}</td>
+                            <td>{{ i.TransferIP }}:{{ i.TransferPort }}</td>
+                            <td>{{ i.CreateTime }}</td>
+                            <td>{{ i.TransferTimes }}小时</td>
+                            <td>{{ i.ttl }}秒</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+</body>
+
+<style type="text/css">
+<!--
+body {TEXT-ALIGN: center;}
+.center { MARGIN-RIGHT: auto; MARGIN-LEFT: auto; }
+.t { position: absolute; left: 50%; transform: translate(-50%,0) }
+-->
+</style>
+</html>
