@@ -105,7 +105,7 @@ def runcmd(ip, port, times, client_ip):
             continue
         finally:
             s.close()
-        ssh_channel_cmd = '/usr/bin/ssh -C -N -L*:%s:%s:%s root@%s -p 9055' % (i, ip, port, TRANSFER_SERVER)
+        ssh_channel_cmd = '/usr/bin/ssh -C -N -L*:%s:%s:%s root@%s -p 9055 -o ServerAliveInterval=60' % (i, ip, port, TRANSFER_SERVER)
 
         results = subprocess.Popen(shlex.split(ssh_channel_cmd))
 

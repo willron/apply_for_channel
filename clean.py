@@ -17,6 +17,16 @@ REDIS_PORT = c.getint('Redis', 'port')
 REDIS_DB = c.getint('Redis', 'db')
 
 
+print '#'*20+'Clear SSH Channel'+'#'*20
+kill_cmd = "ps aux|grep 'ssh -C -N -L'|grep -v grep|awk '{print $2}'|xargs -i kill -9 {}"
+s, o = commands.getstatusoutput(kill_cmd)
+if s == 0:
+    print 'Kill SSH Channel Process Done!'
+else:
+    print 'Can\'t Kill SSH Channel Process!'
+print ''
+
+
 print '#'*20+'Clear Redis'+'#'*20
 r = redis.StrictRedis(host=REDIS_SERVER, port=REDIS_PORT, db=REDIS_DB)
 def clearkeys(key):
